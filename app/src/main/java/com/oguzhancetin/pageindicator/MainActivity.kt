@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.oguzhancetin.page_indicator.PageIndicator
 import com.oguzhancetin.page_indicator.PageIndicatorState
 import com.oguzhancetin.pageindicator.ui.theme.PageIndicatorTheme
@@ -43,20 +44,55 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 @Preview
 @Composable
 fun Home() {
-    Column {
+    Column(modifier = Modifier.fillMaxSize()) {
+        var scope = rememberCoroutineScope()
         val state = PageIndicatorState(listOf("First", "Second", "Third", "Fourth"))
         PageIndicator(state)
-        var scope = rememberCoroutineScope()
-        Button(onClick = { scope.launch { state.onNextClick() } }) {
-            Text("next")
-        }
-        Button(onClick = { scope.launch { state.onPreviousClick() } }) {
-            Text("previos")
-        }
 
+        Box(contentAlignment = Alignment.BottomCenter) {
+            Page(state.current.value + 1)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 25.dp),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                Button(onClick = { scope.launch { state.onPreviousClick() } }) {
+                    Text("Previous")
+                }
+
+                if (state.current.value == state.titles.lastIndex) {
+                    Button(onClick = { scope.launch { state.onNextClick() } }) {
+                        Text("Done")
+                    }
+                } else {
+                    Button(onClick = { scope.launch { state.onNextClick() } }) {
+                        Text("Next")
+                    }
+                }
+
+            }
+
+        }
+    }
+
+
+}
+
+@Composable
+fun Page(page: Int) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("form$page", fontSize = 20.sp)
     }
 }
 
