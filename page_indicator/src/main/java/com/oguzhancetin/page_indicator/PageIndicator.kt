@@ -11,6 +11,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,55 +28,78 @@ import kotlinx.coroutines.launch
 @Preview
 @Composable
 fun Home() {
-    Column(modifier = Modifier.fillMaxSize()) {
-        var scope = rememberCoroutineScope()
-        val state = PageIndicatorState(listOf("First", "Second", "Third", "Fourth"))
-        PageIndicator(state)
+    val state = PageIndicatorState(listOf("First", "Second", "Third", "Fourth"))
+    Screen(state)
+}
 
+@Composable
+fun Screen(state: PageIndicatorState) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        PageIndicator(state)
         Box(contentAlignment = Alignment.BottomCenter) {
-            Page(state.current.value + 1)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 25.dp),
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                Button(onClick = { scope.launch { state.onPreviousClick() } }) {
+            Page(state.current)
+
+            if (state.current != 0)
+                Button(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(15.dp),
+                    onClick = { state.onPreviousClick() }) {
                     Text("Previous")
                 }
 
-                if (state.current.value == state.titles.lastIndex) {
-                    Button(onClick = { scope.launch { state.onNextClick() } }) {
-                        Text("Done")
-                    }
-                } else {
-                    Button(onClick = { scope.launch { state.onNextClick() } }) {
-                        Text("Next")
-                    }
+            if (state.current != state.titles.lastIndex && state.current != state.titles.size)
+                Button(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(15.dp),
+                    onClick = { state.onNextClick() }) {
+                    Text("Next")
                 }
 
-            }
+            else
+                Button(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(15.dp),
+                    onClick = { state.onNextClick() }) {
+                    Text("Done")
+                }
 
         }
     }
-
-
 }
 
-
-@Stable
 class PageIndicatorState(
-    val titles: List<String> = listOf("First", "Second", "Third", "Fourth")
+    val titles: List<String> = listOf("First", "Second", "Third", "Fourth"),
 ) {
-    var current = mutableStateOf(0)
+    var current by mutableStateOf(0)
+
+    /* companion object {
+         */
+    /**
+     * The default [Saver] implementation for [TopAppBarState].
+     *//*
+        val Saver: Saver<PageIndicatorState, *> = listSaver(
+            save = { listOf(it.current) },
+            restore = {
+
+                PageIndicatorState(
+                    initialHeightOffsetLimit = it[0],
+                    initialHeightOffset = it[1],
+                    initialContentOffset = it[2]
+                )
+            }
+        )
+    }*/
 
     fun onNextClick() {
-        if (current.value < titles.size) current.value++
-        Log.d("c", current.value.toString())
+        if (current < titles.size) current++
+        Log.d("current", current.toString())
     }
 
     fun onPreviousClick() {
-        if (current.value > 0) current.value--
+        if (current > 0) current--
     }
 }
 
@@ -97,7 +122,7 @@ fun PageIndicator(pageIndicatorState: PageIndicatorState) {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
 
-                    val modifier = if (pageIndicatorState.current.value >= index) {
+                    val modifier = if (pageIndicatorState.current >= index) {
                         Modifier
                             .size(40.dp)
                             .clip(shape = MaterialTheme.shapes.extraLarge)
@@ -118,7 +143,7 @@ fun PageIndicator(pageIndicatorState: PageIndicatorState) {
                             contentAlignment = Alignment.Center
                         ) {
 
-                            if (pageIndicatorState.current.value > index) {
+                            if (pageIndicatorState.current > index) {
                                 Icon(
                                     tint = MaterialTheme.colorScheme.onPrimary,
                                     imageVector = Icons.Filled.Check,
@@ -128,7 +153,7 @@ fun PageIndicator(pageIndicatorState: PageIndicatorState) {
                                 Text(
                                     "${index + 1}",
                                     color =
-                                    if (pageIndicatorState.current.value == index) {
+                                    if (pageIndicatorState.current == index) {
                                         MaterialTheme.colorScheme.onPrimary
                                     } else {
                                         Color.Gray
@@ -139,7 +164,7 @@ fun PageIndicator(pageIndicatorState: PageIndicatorState) {
                         }
 
                     }
-                    AnimatedVisibility(pageIndicatorState.current.value == index) {
+                    AnimatedVisibility(pageIndicatorState.current == index) {
 
                         Text(
                             modifier = Modifier.padding(start = 12.dp),
@@ -157,7 +182,7 @@ fun PageIndicator(pageIndicatorState: PageIndicatorState) {
 
 
         val percentage by animateFloatAsState(
-            targetValue = (pageIndicatorState.current.value.plus(1).toFloat()
+            targetValue = (pageIndicatorState.current.plus(1).toFloat()
                 .div(pageIndicatorState.titles.size))
         )
 
