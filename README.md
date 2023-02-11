@@ -16,7 +16,7 @@ Add the dependency below to your **module**'s `build.gradle` file:
 
 ```gradle
 dependencies {
-    implementation "com.github.ocetin00:ToggleTab:1.0.0"
+     implementation "com.github.ocetin00:PageIndicator:Tag"
 }
 ```
 
@@ -24,88 +24,49 @@ dependencies {
 
 
 ### Create Page-Indicator
-<img src="https://github.com/ocetin00/temp/blob/main/WhatsApp%20Image%202023-01-22%20at%2021.23.12.jpeg" width="280"/>
+<img src="https://github.com/ocetin00/temp/blob/main/ezgif.com-video-to-gif.gif" width="280"/>
 
 ```kotlin
-    @Preview
-    @Composable
-    fun ToggleTabPreview1() {
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .padding(top = 10.dp)
-                .fillMaxWidth()
-        ) {
-            ToggleTab(modifier = Modifier.fillMaxWidth(0.6f),titleList = listOf("Male", "Famele"), onTabSelected = {})
-        }
-    }
-```
-
-
-
-### Create ToggleTab
-You can create toggle-tab with selected color,container color and text style
-
-
-
-<details>
- <summary>Keep reading for more details</summary>
-  
-```kotlin
-   @Preview
+    @OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
-fun ToggleTabPreview2() {
-    var selectedPageIndex by remember {
-        mutableStateOf(1)
-    }
+fun PageIndicatorPreview(
+    pageIndicatorState: PageIndicatorState = rememberPageIndicatorState(
+        listOf(
+            "First",
+            "Second",
+            "Third",
+            "Fourth"
+        )
+    )
 
+) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
+        modifier = Modifier.fillMaxSize(),
     ) {
-        Row(
-            modifier = Modifier
-                .padding(vertical = 20.dp)
-                .fillMaxWidth()
-                .background(Color.White), horizontalArrangement = Arrangement.Center
-        ) {
-            ToggleTab(
-                modifier = Modifier
-                    .fillMaxWidth(fraction = 0.9f)
-                    .clip(ShapeDefaults.ExtraLarge),
-                onTabSelected = { index ->
-                    selectedPageIndex = index
-                },
-                titleList = listOf("First", "Second", "Third"),
-                tabItemTextStyle = TextStyle.Default.copy(
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
-                )
+        Row(){
+            PageIndicator(
+                pageIndicatorState = pageIndicatorState,
+                indicatorColor = MaterialTheme.colorScheme.primary,
+                onIndicatorColor = MaterialTheme.colorScheme.onPrimary,
             )
         }
-        var backgroundColor: Color = when (selectedPageIndex) {
-            0 -> Color.Green
-            1 -> Color.Magenta
-            2 -> Color.Cyan
-            else -> {
-                Color.Green
+        Row(){
+            Button(onClick = { pageIndicatorState.onPrevious() }) {
+                Text("Previous")
             }
-        }
-        Column(
-            modifier = Modifier
-                .padding(20.dp)
-                .fillMaxSize()
-                .background(backgroundColor)
-        ) {
+            Button(onClick = { pageIndicatorState.onNext() }) {
+                Text("Next")
+            }
 
         }
+
+        Text("current page: ${pageIndicatorState.current+1}")
     }
+
 }
 ```
-  <img src="https://github.com/ocetin00/temp/blob/main/WhatsApp-Video-2023-01-22-at-21.08.08.gif" width="150"/>
-  
-</details>
+<img src="https://github.com/ocetin00/temp/blob/main/ezgif.com-video-to-gif.gif" width="200"/>
 
 
 
@@ -114,7 +75,7 @@ __[follow me](https://github.com/ocetin00)__ on GitHub for my next creations!
 
 # License
 ```xml
-Copyright 2019 ocetin00 (Oğuzhan Çetin)
+Copyright 2023 ocetin00 (Oğuzhan Çetin)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
