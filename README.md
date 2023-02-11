@@ -44,13 +44,12 @@ fun PageIndicatorPreview(
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
-        Row(){
-            PageIndicator(
-                pageIndicatorState = pageIndicatorState,
-                indicatorColor = MaterialTheme.colorScheme.primary,
-                onIndicatorColor = MaterialTheme.colorScheme.onPrimary,
-            )
-        }
+      
+        PageIndicator(
+            pageIndicatorState = pageIndicatorState,
+            indicatorColor = MaterialTheme.colorScheme.primary,
+            onIndicatorColor = MaterialTheme.colorScheme.onPrimary,
+        )
         Row(){
             Button(onClick = { pageIndicatorState.onPrevious() }) {
                 Text("Previous")
