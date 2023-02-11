@@ -6,7 +6,7 @@
 </p> <br>
 
 <p align="center">
-<img src="https://github.com/ocetin00/temp/blob/main/WhatsApp-Video-2023-01-22-at-21.08.08.gif" width="250"/>
+<img src="https://github.com/ocetin00/temp/blob/main/ezgif.com-video-to-gif.gif" width="250"/>
 </p>
 
 ## How to Use
@@ -24,7 +24,7 @@ dependencies {
 
 
 ### Create Page-Indicator
-<img src="https://github.com/ocetin00/temp/blob/main/ezgif.com-video-to-gif.gif" width="280"/>
+
 
 ```kotlin
     @OptIn(ExperimentalMaterial3Api::class)
