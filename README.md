@@ -16,7 +16,7 @@ Add the dependency below to your **module**'s `build.gradle` file:
 
 ```gradle
 dependencies {
-     implementation "com.github.ocetin00:PageIndicator:Tag"
+     implementation "com.github.ocetin00:PageIndicator:1.0"
 }
 ```
 
@@ -27,7 +27,7 @@ dependencies {
 
 
 ```kotlin
-    @OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun PageIndicatorPreview(
@@ -66,7 +66,7 @@ fun PageIndicatorPreview(
 
 }
 ```
-<img src="https://github.com/ocetin00/temp/blob/main/ezgif.com-video-to-gif.gif" width="200"/>
+<img src="https://github.com/ocetin00/temp/blob/main/WhatsApp%20Image%202023-02-11%20at%2016.49.47.jpeg" width="200"/>
 
 
 
