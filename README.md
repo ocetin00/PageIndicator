@@ -16,7 +16,7 @@ Add the dependency below to your **module**'s `build.gradle` file:
 
 ```gradle
 dependencies {
-     implementation "com.github.ocetin00:PageIndicator:1.0"
+     implementation "com.github.ocetin00:PageIndicator:1.1"
 }
 ```
 
