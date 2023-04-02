@@ -12,6 +12,16 @@
 ## How to Use
 
 ### Gradle
+Add it in your root **module**'s `build.gradle` at the end of repositories
+
+```gradle
+allprojects {
+	repositories {
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+
 Add the dependency below to your **module**'s `build.gradle` file:
 
 ```gradle
